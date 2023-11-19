@@ -18,6 +18,7 @@ struct RegisterView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
+
 #Preview {
     RegisterView()
 }
