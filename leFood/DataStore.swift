@@ -23,8 +23,9 @@ class DataStore {
     var cachedRecipes: [Recipe]? = nil
     
     func fetchRecipes() async throws -> [Recipe] {
-        let result = try await NetworkManager.shared.fetchRecipes()
-        cachedRecipes = result
-        return result
+        return []
+//        let result = try await NetworkManager.shared.fetchRecipes()
+//        cachedRecipes = result
+//        return result
     }
 }

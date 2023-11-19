@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RootView: View {
     let manager = NetworkManager(accessToken: "", refreshToken: "")
+    var added = false
     
     var body: some View {
         NavigationStack {
             FirstPage()
-                .setCustomNavBar(title: "Hey")
                 .navigationDestination(for: Route.self) { route in
                     
                     switch route {
@@ -23,12 +23,14 @@ struct RootView: View {
                         RegisterView()
                     case .home, .debugToHome:
                         let recipes = DataStore.shared.selected
-                        HomeView(viewmodel: .init(
-                            featured: recipes.first, meals: recipes.dropFirst().map { $0 }, configuredForHome: true))
+                        HomeView(viewmodel: .default)
+                            .setCustomNavBar(title: "Hey")
                     case .tinderLike, .debugToTinder:
 
                         let newcolors = DataStore.shared.cachedRecipes ?? []
-                        TinderLikeView(colors: newcolors)
+                        TinderLikeView()
+//                            .setCustomNavBar(title: "Hey")
+
                             
                         
                     case .webview(let url):
@@ -37,8 +39,11 @@ struct RootView: View {
                         FirstPage()
                     case .upcoming:
                         HomeView(viewmodel: .default.setConfig(for: false))
+                            .setCustomNavBar(title: "Hey")
                     case .chat:
                         ChatView(messages: Message.someMessages)
+                            .setCustomNavBar(title: "Hey")
+
                     case .signup:
                         SignupView()
                     }
@@ -110,6 +115,15 @@ extension View {
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbarBackground(ColorAssets.green5F.color, for: .bottomBar)
             .toolbarBackground(.hidden, for: .bottomBar)
+    }
+    
+    func setEnterNavBar() -> some View {
+        return self
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("HeyFood")
+        .toolbarBackground(ColorAssets.green5F.color, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        
     }
 }
 

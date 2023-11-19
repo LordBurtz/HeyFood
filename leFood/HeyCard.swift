@@ -23,7 +23,7 @@ struct HeyTitleCard<T: View>: View {
             }
             HStack {
                 
-                Text("looks like you have a lot to do tomorrow, how about a quick dinner?")
+                Text("looks like you're all caught up and ready to start your week, thanks for choosing HeyFood")
                     .foregroundStyle(primary)
                     .font(.custom("ZenAntique-Regular", size: 18))
                     .padding([.leading, .trailing], 7)

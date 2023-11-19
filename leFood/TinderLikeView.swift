@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TinderLikeView: View {
-    @State var colors: [Recipe] // = [.init(id: 1), .init(id: 2), .init(id: 3), .init(id: 4), .init(id: 5), .init(id: 6), .init(id: 7), .init(id: 8)]
+    @State var colors: [Recipe] = [.init(id: 1), .init(id: 2), .init(id: 3), .init(id: 4), .init(id: 5), .init(id: 6), .init(id: 7), .init(id: 8)]
     @State var index = 0
     @State var XdragOffset: CGFloat = 0
     @State var YdragOffset: CGFloat = 0
