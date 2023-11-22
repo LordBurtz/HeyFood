@@ -87,18 +87,33 @@ struct FirstPage: View {
 
 struct PageButton: View {
     let label: String
-    let action: () -> Void = {}
+    var action: (() -> Void)?
     
     var body: some View {
-        Text(label)
-            .font(.custom("ZenAntique-Regular", size: 20))
-            .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
-            .padding(15)
-            .background {
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(ColorAssets.green06.color)
+        if let action {
+            Button(role: .none, action: action) {
+                Text(label)
+                    .font(.custom("ZenAntique-Regular", size: 20))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(15)
+                    .background {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(ColorAssets.green06.color)
+                    }
+                
             }
+        } else {
+            Text(label)
+                    .font(.custom("ZenAntique-Regular", size: 20))
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(15)
+                    .background {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(ColorAssets.green06.color)
+                    }
+        }
     }
 }
 

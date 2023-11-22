@@ -20,7 +20,7 @@ extension Ingredient {
         imageLink: "http://example.com")
 }
 
-struct Nutrition: Decodable {
+struct Nutrition: Decodable, Hashable {
     let energy: Int
     let calories: Int
     let carbohydrate: Double
@@ -33,7 +33,11 @@ struct Nutrition: Decodable {
         protein: 38.4)
 }
 
-struct Recipe: Decodable {
+struct Recipe: Decodable, Hashable {
+    static func == (lhs: Recipe, rhs: Recipe) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     let id: Int
     let name: String
     let headline: String

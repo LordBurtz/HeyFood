@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HeyTitleCard<T: View>: View {
-    let description = "Very tasty food with a lot of calories, I like it quite a lot"
+    let description: String
     let primary = ColorAssets.green06.color
     @State var shadowDisabled = true
     @ViewBuilder let content: () -> T
@@ -23,7 +23,7 @@ struct HeyTitleCard<T: View>: View {
             }
             HStack {
                 
-                Text("looks like you're all caught up and ready to start your week, thanks for choosing HeyFood")
+                Text(description)
                     .foregroundStyle(primary)
                     .font(.custom("ZenAntique-Regular", size: 18))
                     .padding([.leading, .trailing], 7)
@@ -60,7 +60,7 @@ struct HeyTitleCard<T: View>: View {
 
 #Preview {
     HStack {
-        HeyTitleCard() {
+        HeyTitleCard(description: "Header") {
             Circle()
                 .frame(height: 100)
         }

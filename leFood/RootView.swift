@@ -22,8 +22,11 @@ struct RootView: View {
                     case .register:
                         RegisterView()
                     case .home, .debugToHome:
-                        let recipes = DataStore.shared.selected
-                        HomeView(viewmodel: .default)
+                        let recipes = DataStore.shared.thisWeek
+                        HomeView(viewmodel: .init(
+                            featured: DataStore.shared.featured,
+                            meals: recipes,
+                            configuredForHome: true))
                             .setCustomNavBar(title: "Hey")
                     case .tinderLike, .debugToTinder:
 
@@ -38,7 +41,8 @@ struct RootView: View {
                     case .firstPage:
                         FirstPage()
                     case .upcoming:
-                        HomeView(viewmodel: .default.setConfig(for: false))
+//                        HomeView(viewmodel: .default.setConfig(for: false))
+                        UpcomingView()
                             .setCustomNavBar(title: "Hey")
                     case .chat:
                         ChatView(messages: Message.someMessages)
@@ -48,6 +52,13 @@ struct RootView: View {
                         SignupView()
                     }
                 }
+        }
+        .onAppear {
+            Task {
+                do {
+                    try await DataStore.shared.fetchRecipes()
+                }
+            }
         }
     }
 }

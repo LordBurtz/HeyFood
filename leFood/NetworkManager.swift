@@ -38,23 +38,17 @@ class NetworkManager {
     let accessToken: String
     let refreshToken: String
     
-    var cachedRecipes: [Recipe]? = nil
-    
     init(accessToken: String, refreshToken: String) {
         self.accessToken = accessToken
         self.refreshToken = refreshToken
     }
     
     func fetchRecipes() async throws -> [Recipe] {
-        if let cached = cachedRecipes {
-            return cached
-        }
         let url = URL(string: "http://127.0.0.1:5000/homeview")!
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let recipes = try JSONDecoder().decode([Recipe].self, from: data).sorted { $0.id < $1.id }
-            cachedRecipes = recipes
             return recipes
         } catch {
             throw error

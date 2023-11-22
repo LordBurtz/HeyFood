@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     let viewmodel: HomeViewModel
     
+    @Environment(\.scenePhase) var scenePhase
     @State var meals: [Recipe] = []
     
     var body: some View {
@@ -36,19 +37,25 @@ struct HomeView: View {
             }
             .padding(30)
         }
-        .onAppear() {
-            Task {
-                do {
-                    if self.viewmodel.configuredForHome {
-                        self.meals = DataStore.shared.selected
-                        
-                    } else {
-                        self.meals = try await DataStore.shared.fetchRecipes()
-                        self.meals.append(contentsOf: viewmodel.meals)
+        .onAppear {
+            loadFromDataStore()
+        }
+        .onChange(of: scenePhase, perform: { newPhase in
+            switch newPhase {
+            case .active:
+                Task {
+                    do {
+                        try await loadFromDataStore()
                     }
                 }
+            default:
+                print()
             }
-        }
+        })
+    }
+    
+    func loadFromDataStore() {
+        meals = DataStore.shared.thisWeek
     }
 }
 

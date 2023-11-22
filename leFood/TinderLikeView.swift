@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TinderLikeView: View {
-    @State var colors: [Recipe] = [.init(id: 1), .init(id: 2), .init(id: 3), .init(id: 4), .init(id: 5), .init(id: 6), .init(id: 7), .init(id: 8)]
+    @State var colors: [Recipe] = [] //  = [.init(id: 1), .init(id: 2), .init(id: 3), .init(id: 4), .init(id: 5), .init(id: 6), .init(id: 7), .init(id: 8)]
     @State var index = 0
     @State var XdragOffset: CGFloat = 0
     @State var YdragOffset: CGFloat = 0
@@ -33,7 +33,8 @@ struct TinderLikeView: View {
             ZStack {
                 ForEach(self.colors, id: \.id) { recipe in
                     if disabled.contains(recipe.id) == false {
-                        HeyTitleCard {
+                        HeyTitleCard(description: recipe.headline) {
+                            Spacer()
                             AsyncImage(url: URL(string: recipe.imageURL)!) { phase in
                                 switch phase {
                                 case .success(let img):
@@ -61,6 +62,7 @@ struct TinderLikeView: View {
                             }
                             .padding(20)
                         }
+                        .frame(maxWidth: .infinity  )
                         .padding(EdgeInsets(top: 30, leading: 0, bottom: 0, trailing: 0))
                         .rotationEffect(Angle(degrees: (recipe.id == colors.count - (index)) ? XdragOffset * 0.1 : 0))
                         .offset(CGSize(
@@ -80,18 +82,20 @@ struct TinderLikeView: View {
                                 .onEnded { value in
                                     withAnimation(.none) {
                                         
+                                        // to the left
                                         if value.translation.width < -50 {
                                             if (recipe.id == colors.count - (index)) {
                                                 disabled.append(recipe.id)
                                             }
-                                            leftSwipe()
+                                            rightSwipe()
                                         }
                                         
+                                        // this one is direction right
                                         if value.translation.width > 50 {
                                             if (recipe.id == colors.count - (index)) {
                                                 disabled.append(recipe.id)
                                             }
-                                            rightSwipe()
+                                            leftSwipe()
                                         }
                                         
                                         XdragOffset = 0
@@ -115,20 +119,31 @@ struct TinderLikeView: View {
                     Spacer()
                 }
             } else {
-                HeyTitleCard {
+                HeyTitleCard (description: "looks like you're all caught up and ready to start your week, thanks for choosing HeyFood") {
 
                     
                 }
                 .padding(20)
             }
         }
-        .onDisappear {
-            DataStore.shared.selected.append(
-                contentsOf: colors.filter { a in
-                    chosen.contains { a.id  == $0 }
-                })
+        .onAppear {
+            Task {
+                do {
+                    colors = (DataStore.shared.cachedRecipes ?? []).sorted(by: { $0.id < $1.id })
+                }
+            }
         }
+//        .onDisappear { saveToDataStore() }
+        
         .setCustomNavBar()
+    }
+    
+    func saveToDataStore() {
+        DataStore.shared.upcoming.append(contentsOf:  colors.filter { a in
+                chosen.contains { a.id  == $0 }
+            })
+        
+        DataStore.shared.upcoming = Array(Set(DataStore.shared.upcoming))
     }
     
     func advance() {
@@ -137,6 +152,7 @@ struct TinderLikeView: View {
     
     func leftSwipe() {
         chosen.append(index)
+        saveToDataStore()
         print("i left")
         advance()
     }
