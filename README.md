@@ -20,3 +20,6 @@ The app is written in pure SwiftUI using only native libraries
  - [Mingqi](https://github.com/MuZiQiAM)  (for her beautiful design and supportive spirit)
  - [Raphael](https://github.com/raphaeldichler) (for his java backend attempt and microsoft employment™)
  - Fridolin (for setting up the Xcode project)
+
+## See also
+[hello-fresh-hackatum](https://github.com/raphaeldichler/hello-fresh-hackatum), an alternative backend written in Java using Spring Boot
