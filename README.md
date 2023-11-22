@@ -17,6 +17,6 @@ The app is written in pure SwiftUI using only native libraries
 
 ## Thanks to
  - [Batuhan](https://github.com/BatuhanKostik) (for his scraping attempts as well as his comradery)
- - Mingqi  (for her beautiful design and supportive spirit)
- - Raphael (for his java backend attempt and microsoft employment™)
+ - [Mingqi](https://github.com/MuZiQiAM)  (for her beautiful design and supportive spirit)
+ - [Raphael](https://github.com/raphaeldichler) (for his java backend attempt and microsoft employment™)
  - Fridolin (for setting up the Xcode project)
